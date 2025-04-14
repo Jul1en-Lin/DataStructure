@@ -67,7 +67,7 @@ public class MyArrayList implements IList{
         this.usedSize++;
     }
 
-    private void checkPos(int pos) {
+    private void checkPos(int pos) throws PosCheckException{
         if (pos < 0 || pos > this.usedSize) {
             throw new PosCheckException(Constants.ADD_POS_ILLEGALITY);
         }
@@ -113,7 +113,7 @@ public class MyArrayList implements IList{
     }
 
     @Override
-    public void set(int pos, int value) {
+    public void set(int pos, int value) throws EmptyListException{
         //判断数组是否为空
         if (isEmpty()){
             throw new EmptyListException(Constants.EMPTY_LIST);
@@ -130,7 +130,7 @@ public class MyArrayList implements IList{
     }
 
     @Override
-    public void remove(int toRemove) {
+    public void remove(int toRemove) throws EmptyListException{
         //判断数组是否为空
         if (isEmpty()) {
             throw new EmptyListException(Constants.EMPTY_LIST);
