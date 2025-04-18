@@ -92,26 +92,56 @@ public class MySingleList implements ILink{
 
     @Override
     public void remove(int key) {
+        if (this.head == null) {
+            System.out.println("链表为空");
+            return;
+        }
+        //删除的是头节点
+        if (this.head.val == key) {
+            this.head = this.head.next;
+            return;
+        }
+        //其他节点
         ListNode prv = searchPrvPos(key);
+        if (prv == null) {
+            System.out.println("没有你要删除的数字："+key);
+            return;
+        }
         ListNode del = prv.next;
         prv.next = del.next;
-
-        if (this.head == null) {
-            this.head = head.next;
-        }
     }
 
     private ListNode searchPrvPos(int key) {
         ListNode prv = this.head;
-        while (prv.next.val != key){
-             prv = prv.next;
+        while (prv.next != null){
+            if (prv.next.val == key) {
+                return prv;
+            }
+            prv = prv.next;
         }
-        return prv;
+        return null;
     }
 
     @Override
     public void removeAllKey(int key) {
-
+        if (this.head == null) {
+            System.out.println("链表为空");
+            return;
+        }
+        while (this.head.val == key) {
+            this.head = head.next;
+        }
+        ListNode cur = this.head;
+        ListNode tmp = cur.next;
+        while (tmp != null) {
+            if (tmp.val == key) {
+                cur.next = tmp.next;
+                tmp = tmp.next;
+            }else {
+                cur = tmp;
+                tmp = tmp.next;
+            }
+        }
     }
 
     @Override
@@ -127,7 +157,13 @@ public class MySingleList implements ILink{
 
     @Override
     public void clear() {
-
+        while (this.head != null) {
+            ListNode tmp = this.head;
+            this.head.val = 0;
+            this.head.next = null;
+            this.head = tmp;
+        }
+        this.head = null;
     }
 
     @Override
