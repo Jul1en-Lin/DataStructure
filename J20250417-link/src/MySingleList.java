@@ -175,4 +175,46 @@ public class MySingleList implements ILink{
         }
         System.out.println();
     }
+
+    //翻转列表
+    public ListNode reverseList(){
+        //判断列表是否为空
+        if (head == null) {
+            return null;
+        }
+        //判断是否只有一个节点
+        if (head.next == null) {
+            return head;
+        }
+        //多个节点
+        ListNode cur = this.head;
+        ListNode curN = cur.next;
+        while (cur != null) {
+            cur.next = this.head;
+            this.head = cur;
+            cur = curN;
+            curN = curN.next;
+        }
+        return this.head;
+    }
+    //重载display方法
+    public void display(ListNode newHead) {
+        ListNode cur = newHead;
+        while (cur != null) {
+            System.out.print(cur.val+" ");
+            cur = cur.next;
+        }
+        System.out.println();
+    }
+    //找中间节点
+    public ListNode middleNode(){
+        ListNode fast = this.head;
+        ListNode slow = this.head;
+        while (fast != null && fast.next != null){
+        //while (fast.next != null && fast != null) 空指针异常 {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
 }
