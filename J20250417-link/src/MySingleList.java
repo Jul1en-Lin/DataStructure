@@ -1,3 +1,5 @@
+import java.lang.management.LockInfo;
+
 public class MySingleList implements ILink{
     static class ListNode{
         //数据
@@ -206,7 +208,7 @@ public class MySingleList implements ILink{
         }
         System.out.println();
     }
-    //找中间节点
+    //找中间节点(只遍历一遍)
     public ListNode middleNode(){
         ListNode fast = this.head;
         ListNode slow = this.head;
@@ -216,5 +218,94 @@ public class MySingleList implements ILink{
             slow = slow.next;
         }
         return slow;
+    }
+
+    //找中间节点(size/2普通)
+    public ListNode middleNode2(){
+        ListNode cur = this.head;
+        int len = size();
+        int ret = len / 2;
+        for (int i = 0; i < ret; i++) {
+            cur = cur.next;
+        }
+        return cur;
+    }
+
+    //找倒数第K个节点的值(只遍历一遍)
+    public int kthToLast(int k){
+        //判断K节点合法性
+        if (k <= 0) {
+            return -1;
+        }
+        ListNode fast = this.head;
+        ListNode slow = this.head;
+        //fast 走k-1步 与 slow 保持差值
+        for (int i = 0; i < k - 1 ; i++) {
+            fast = fast.next;
+            if (fast == null) {
+                return -1;
+            }
+        }
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow.val;
+    }
+
+    //判断是否回文 12 23 34 23 12 即为回文
+    public boolean chkPalindrome(){
+        if (this.head == null) {
+            return false;
+        }
+
+        ListNode mid = middleNode();
+        //从中间节点开始翻转
+        ListNode cur = mid.next;
+        while (cur != null) {
+            ListNode fast = cur.next;
+            cur.next = mid;
+            mid = cur;
+            cur = fast;
+        }
+        //判断是否回文
+        while (this.head.val == mid.val) {
+            //奇数
+            if (this.head == mid) {
+                return true;
+            }
+            //偶数
+            if (this.head.next == mid) {
+                return true;
+            }
+            this.head = this.head.next;
+            mid = mid.next;
+        }
+        return false;
+    }
+
+    //将两个有序链表合并成一个新的有序链表并返回，新链表是通过拼接给定的两个链表的所有节点组成的
+    public ListNode mergeTwoLists(ListNode headA,ListNode headB) {
+        ListNode tmp = new ListNode(-1);//随意值 哨兵节点
+        ListNode tmpHead = tmp.next;
+        while (headA != null && headB != null) {
+            if (headB.val < headA.val) {
+                tmpHead.next = headB;
+                tmpHead = tmpHead.next;
+                headB = headB.next;
+            }
+            if (headB.val > headA.val) {
+                tmpHead.next = headA;
+                tmpHead = tmpHead.next;
+                headA = headA.next;
+            }
+        }
+        if (headB == null) {
+            tmpHead.next = headA;
+        }
+        if (headA == null) {
+            tmpHead.next = headB;
+        }
+        return tmp.next;
     }
 }
