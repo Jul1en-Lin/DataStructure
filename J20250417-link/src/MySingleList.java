@@ -1,4 +1,5 @@
 import java.lang.management.LockInfo;
+import java.security.PublicKey;
 
 public class MySingleList implements ILink{
     static class ListNode{
@@ -6,6 +7,9 @@ public class MySingleList implements ILink{
         public int val;
         //节点的引用
         public ListNode next;
+
+        public ListNode() {
+        }
 
         public ListNode(int val) {
             this.val = val;
@@ -307,5 +311,117 @@ public class MySingleList implements ILink{
             tmpHead.next = headB;
         }
         return tmp.next;
+    }
+
+    //链表分割
+    public ListNode partition(ListNode pHead,int x) {
+        if (pHead == null) {
+            return null;
+        }
+        ListNode cur = pHead;
+        ListNode low = new ListNode(-1);
+        ListNode high = new ListNode(-1);
+        ListNode a = low,b = high;
+        while (cur != null) {
+            //关键：保存下一个节点并断开当前的next，避免链表形成环
+            ListNode curN = cur.next;
+            cur.next = null;
+
+            if (cur.val < x) {
+                a.next = cur;
+                a = a.next;
+            }else {
+                b.next = cur;
+                b = b.next;
+            }
+            cur = curN;
+        }
+        //通过哨兵节点初始化后，a和b始终不为null
+        /*if (a != null && b != null) {
+            a.next = high.next;
+        }
+        if (a == null) {
+            return high.next;
+        }*/
+
+        //连接两个列表
+        a.next = high.next;
+        return low.next;
+    }
+
+    //相交链表
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode pl = headA;
+        ListNode ps = headB;
+
+        int lenA = 0,lenB = 0;
+        while (pl != null) {
+            pl = pl.next;
+            lenA++;
+        }
+        while (ps != null) {
+            ps = ps.next;
+            lenB++;
+        }
+        int ret = getDifferenceVal(lenA,lenB);
+        pl = headA;
+        ps = headB;
+        if (lenB > lenA) {
+            pl = headB;
+            ps = headA;
+        }
+        while (ret != 0) {
+            pl = pl.next;
+            ret--;
+        }
+        while (pl != ps) {
+            pl = pl.next;
+            ps = ps.next;
+        }
+        return pl;
+    }
+
+    private int getDifferenceVal(int a,int b) {
+        int tmp = a-b;
+        return tmp > 0 ? tmp : -tmp;
+    }
+
+    //环形链表
+    public boolean hasCycle(ListNode head){
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //环形链表II
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                break;
+            }
+        }
+        if (fast == null || fast.next == null) {
+            return null;
+        }
+        fast = head;
+        while (fast != slow) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return fast;
     }
 }
