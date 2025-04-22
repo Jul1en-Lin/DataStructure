@@ -1,3 +1,4 @@
+import java.lang.management.LockInfo;
 import java.util.List;
 
 public class MyLinkedList implements ILink{
@@ -45,7 +46,29 @@ public class MyLinkedList implements ILink{
 
     @Override
     public void addIndex(int index, int data) {
-
+        //判断index合法性
+        if (index < 0 || index > size()) {
+            System.out.println("index位置不合法");
+            return;
+        }
+        ListNode cur = this.head;
+        if (index == 0 ) {
+            addFirst(data);
+            return;
+        }else if (index == size()) {
+            addLast(data);
+            return;
+        }else {
+            ListNode add = new ListNode(data);
+            while (index != 0) {
+                cur = cur.next;
+                index--;
+            }
+            add.next = cur;
+            cur.prev.next = add;
+            add.prev = cur.prev;
+            cur.prev = add;
+        }
     }
 
     @Override
@@ -93,7 +116,27 @@ public class MyLinkedList implements ILink{
 
     @Override
     public void removeAllKey(int key) {
+        if (this.head == null) {
+            return;
+        }
+        ListNode cur = this.head;
+        while (cur != null) {
+            ListNode curN = cur.next;
+            if (cur.val == key) {
+                //头
+                if (cur.prev == null) {
+                    this.head = cur.next;
+                } else if (cur.next == null) {
+                    cur.prev.next = null;//尾
+                    return;
+                }else {
+                    cur.prev.next = cur.next;
+                    cur.next.prev = cur.prev;
+                }
 
+            }
+            cur = curN;
+        }
     }
 
     @Override
