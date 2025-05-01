@@ -78,6 +78,15 @@ public class BinaryTree {
         return size2(root.left) + size2(root.right) + 1;
     }
 
+    // 判断一棵树是不是完全二叉树
+    public boolean isCompleteTree(TreeNote root) {
+        if (root == null) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * 获取叶子节点的个数
      * @param root 遍历
@@ -172,11 +181,79 @@ public class BinaryTree {
             return true;
         }
         //两个不为空但值不一样
-        if (p != null && q != null) {
-            if (p.val != q.val) {
-                return false;
-            }
+        if (p.val != q.val) {
+            return false;
         }
+
         return isSameTree(p.left,q.left) && isSameTree(p.right,q.right);
+    }
+
+    public boolean isSubTree(TreeNote root,TreeNote subRoot) {
+        if (root == null) {
+            return false;
+        }
+        if (isSameTree(root,subRoot)){
+            return true;
+        }
+        //递归
+        if (isSubTree(root.left,subRoot)){
+            return true;
+        }
+        if (isSubTree(root.right,subRoot)){
+            return true;
+        }
+        return false;
+    }
+
+    /*
+    翻转二叉树
+     */
+    //TODO:如何用返回值做？
+    public TreeNote invertTree(TreeNote root) {
+        if (root == null) {
+            return null;
+        }
+        /*if ((root.left != null && root.right == null) || (root.right != null && root.left == null)){
+            return null;
+        }*/
+        if (root.left == null && root.right == null) {
+            return root;
+        }
+        TreeNote tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
+        invertTree(root.left);
+        invertTree(root.right);
+        return root;
+    }
+    /*public TreeNote invertTree2(TreeNote root) {
+
+    }*/
+
+    /*
+    判断是否对称
+     */
+    public boolean isSymmetric(TreeNote root) {
+        if (root == null) {
+            return true;
+        }
+        return isSymmetricChild(root.left,root.right);
+    }
+
+    private boolean isSymmetricChild(TreeNote leftTree,TreeNote rightTree) {
+        if ((leftTree != null && rightTree == null) || (leftTree == null && rightTree != null)) {
+            return false;
+        }
+        if (leftTree == null && rightTree == null) {
+            return true;
+        }
+        /*if (leftTree.val == rightTree.val) {
+            return true;
+        }*/ //error
+        if (leftTree.val != rightTree.val) {
+            return false;
+        }
+        //到了这里证明leftTree.val == rightTree.val 需要继续走下去
+        return isSymmetricChild(leftTree.left,rightTree.right) && isSymmetricChild(leftTree.right,rightTree.left);
     }
 }
