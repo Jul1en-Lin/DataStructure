@@ -1,33 +1,45 @@
-public class BinaryTree {
-    static class TreeNote{
-        public char val;
-        public TreeNote left;
-        public TreeNote right;
+import org.w3c.dom.stylesheets.LinkStyle;
 
-        public TreeNote(char val) {
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class BinaryTree {
+    static class TreeNode{
+
+        public char val;
+        public TreeNode left;
+        public TreeNode right;
+
+        public TreeNode(char val) {
             this.val = val;
         }
     }
-    public TreeNote root;
-    public TreeNote createTree(){
-        TreeNote A = new TreeNote('A');
-        TreeNote B = new TreeNote('B');
-        TreeNote C = new TreeNote('C');
-        TreeNote D = new TreeNote('D');
-        TreeNote E = new TreeNote('E');
-
+    public TreeNode root;
+    public TreeNode createTree(){
+        TreeNode A = new TreeNode('A');
+        TreeNode B = new TreeNode('B');
+        TreeNode C = new TreeNode('C');
+        TreeNode D = new TreeNode('D');
+        TreeNode E = new TreeNode('E');
+        TreeNode F = new TreeNode('F');
+        TreeNode G = new TreeNode('G');
+        TreeNode H = new TreeNode('H');
         A.left = B;
-        B.left = D;
         A.right = C;
-        C.left = E;
-        root = A;
-        return root;
+        B.left = D;
+        B.right = E;
+        E.right = H;
+        C.left = F;
+        C.right = G;
+        return A;
     }
 
     /**
      * 前序遍历
      */
-    public void preOrder(TreeNote root) {
+    public void preOrder(TreeNode root) {
         if (root == null) {
             return;
         }
@@ -39,7 +51,7 @@ public class BinaryTree {
     /**
      * 中序遍历
      */
-    public void inOrder(TreeNote root) {
+    public void inOrder(TreeNode root) {
         if (root == null) {
             return;
         }
@@ -51,7 +63,7 @@ public class BinaryTree {
     /**
      * 后序遍历
      */
-    public void postOrder(TreeNote root) {
+    public void postOrder(TreeNode root) {
         if (root == null) {
             return;
         }
@@ -60,9 +72,64 @@ public class BinaryTree {
         System.out.print(root.val+" ");
     }
 
+    /**
+     * 层序遍历
+     */
+    public void levelOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.peek();
+            System.out.print(cur.val + " ");
+            //需要考虑子树是否是空树的情况
+            if (cur.left != null) {
+                queue.offer(cur.left);
+            }
+            if (cur.right != null) {
+                queue.offer(cur.right);
+            }
+            queue.poll();
+        }
+    }
+
+    /**
+     * 层序遍历2
+     */
+    public List<List<Character>> levelOrderBottom(TreeNode root) {
+        List<List<Character>> ret = new ArrayList<>();
+        if (root == null) {
+            return ret;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            List<Character> listRow = new ArrayList<>();
+            int size = queue.size();
+            while (size != 0) {
+                TreeNode cur = queue.poll();
+                listRow.add(cur.val);
+                System.out.print(cur.val + " ");
+                if (cur.left != null) {
+                    queue.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    queue.offer(cur.right);
+                }
+                size--;
+            }
+            ret.add(listRow);
+        }
+        return ret;
+    }
+
+
     // 获取树中节点的个数  遍历o(N)
     public static int count;
-    public void size(TreeNote root) {
+    public void size(TreeNode root) {
         if (root == null) {
             return;
         }
@@ -71,29 +138,20 @@ public class BinaryTree {
         size(root.right);
     }
 
-    public int size2(TreeNote root) {
+    public int size2(TreeNode root) {
         if (root == null) {
             return 0;
         }
         return size2(root.left) + size2(root.right) + 1;
     }
 
-    // 判断一棵树是不是完全二叉树
-    public boolean isCompleteTree(TreeNote root) {
-        if (root == null) {
-            return false;
-        }
 
-        return true;
-    }
 
     /**
      * 获取叶子节点的个数
-     * @param root 遍历
-     * @return count
      */
     public static int LeafNodeCount;
-    public void getLeafNodeCount(TreeNote root) {
+    public void getLeafNodeCount(TreeNode root) {
         if (root == null) {
             return;
         }
@@ -108,7 +166,7 @@ public class BinaryTree {
      * 获取叶子节点的个数2
      * @param root 子问题思路
      */
-    public int getLeafNodeCount2(TreeNote root) {
+    public int getLeafNodeCount2(TreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -124,7 +182,7 @@ public class BinaryTree {
      * @param k
      * @return
      */
-    public int getLevelNodeCount(TreeNote root,int k) {
+    public int getLevelNodeCount(TreeNode root,int k) {
         if (root == null) {
             return 0;
         }
@@ -141,7 +199,7 @@ public class BinaryTree {
      * @param root
      * @return
      */
-    public int getHeight(TreeNote root) {
+    public int getHeight(TreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -150,18 +208,18 @@ public class BinaryTree {
         return Math.max(leftH,rightH) + 1;
     }
 
-    public TreeNote find (TreeNote root,char val){
+    public TreeNode find (TreeNode root,char val){
         if (root == null){
             return null;
         }
         if (root.val == val) {
             return root;
         }
-        TreeNote note = find(root.left, val);
+        TreeNode note = find(root.left, val);
         if (note != null) {
             return note;
         }
-        TreeNote note1 = find(root.right, val);
+        TreeNode note1 = find(root.right, val);
         if (note1 != null) {
             return note1;
         }
@@ -171,7 +229,7 @@ public class BinaryTree {
     /*
     检查两棵树是否相同
      */
-    public boolean isSameTree(TreeNote p,TreeNote q) {
+    public boolean isSameTree(TreeNode p,TreeNode q) {
         //一个为空 一个不为空
         if ((p != null && q == null) || (p == null && q != null)) {
             return false;
@@ -188,7 +246,7 @@ public class BinaryTree {
         return isSameTree(p.left,q.left) && isSameTree(p.right,q.right);
     }
 
-    public boolean isSubTree(TreeNote root,TreeNote subRoot) {
+    public boolean isSubTree(TreeNode root,TreeNode subRoot) {
         if (root == null) {
             return false;
         }
@@ -208,8 +266,7 @@ public class BinaryTree {
     /*
     翻转二叉树
      */
-    //TODO:如何用返回值做？
-    public TreeNote invertTree(TreeNote root) {
+    public TreeNode invertTree(TreeNode root) {
         if (root == null) {
             return null;
         }
@@ -219,28 +276,29 @@ public class BinaryTree {
         if (root.left == null && root.right == null) {
             return root;
         }
-        TreeNote tmp = root.left;
+        TreeNode tmp = root.left;
         root.left = root.right;
         root.right = tmp;
         invertTree(root.left);
         invertTree(root.right);
         return root;
     }
-    /*public TreeNote invertTree2(TreeNote root) {
-
-    }*/
+    //TODO:如何用返回值做？
+    public TreeNode invertTree2(TreeNode root) {
+        return null;
+    }
 
     /*
     判断是否对称
      */
-    public boolean isSymmetric(TreeNote root) {
+    public boolean isSymmetric(TreeNode root) {
         if (root == null) {
             return true;
         }
         return isSymmetricChild(root.left,root.right);
     }
 
-    private boolean isSymmetricChild(TreeNote leftTree,TreeNote rightTree) {
+    private boolean isSymmetricChild(TreeNode leftTree,TreeNode rightTree) {
         if ((leftTree != null && rightTree == null) || (leftTree == null && rightTree != null)) {
             return false;
         }
@@ -255,5 +313,47 @@ public class BinaryTree {
         }
         //到了这里证明leftTree.val == rightTree.val 需要继续走下去
         return isSymmetricChild(leftTree.left,rightTree.right) && isSymmetricChild(leftTree.right,rightTree.left);
+    }
+
+    /**
+     * 判断是否为完全二叉树
+     * @return
+     */
+    public boolean isCompleteTree(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 判断是否为平衡二叉树
+     * @return
+     */
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return getHeight2(root) >= 0;
+    }
+    private int getHeight2(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftH = getHeight2(root.left);
+        if (leftH < 0) {
+            return -1;
+        }
+        int rightH = getHeight2(root.right);
+        if (rightH < 0) {
+            return -1;
+        }
+        if (Math.abs(leftH - rightH) <= 1 && leftH >= 0 && rightH >= 0) {
+            return Math.max(leftH,rightH) + 1;
+        }else {
+            return -1;
+        }
     }
 }
