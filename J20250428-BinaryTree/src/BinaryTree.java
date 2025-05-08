@@ -1,9 +1,4 @@
-import org.w3c.dom.stylesheets.LinkStyle;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class BinaryTree {
     static class TreeNode{
@@ -98,7 +93,7 @@ public class BinaryTree {
     /**
      * 层序遍历2
      */
-    public List<List<Character>> levelOrderBottom(TreeNode root) {
+    public List<List<Character>> levelOrder2(TreeNode root) {
         List<List<Character>> ret = new ArrayList<>();
         if (root == null) {
             return ret;
@@ -315,17 +310,7 @@ public class BinaryTree {
         return isSymmetricChild(leftTree.left,rightTree.right) && isSymmetricChild(leftTree.right,rightTree.left);
     }
 
-    /**
-     * 判断是否为完全二叉树
-     * @return
-     */
-    public boolean isCompleteTree(TreeNode root) {
-        if (root == null) {
-            return false;
-        }
 
-        return true;
-    }
 
     /**
      * 判断是否为平衡二叉树
@@ -354,6 +339,136 @@ public class BinaryTree {
             return Math.max(leftH,rightH) + 1;
         }else {
             return -1;
+        }
+    }
+
+    /**
+     * 判断是否为完全二叉树
+     * @return
+     */
+    public boolean isCompleteTree(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.peek();
+            if (cur != null) {
+                queue.offer(cur.left);
+                queue.offer(cur.right);
+                queue.poll();
+            }else {
+                break;
+            }
+        }
+        //判断队列里面是否全是空
+        while (!queue.isEmpty()) {
+            TreeNode ret = queue.poll();
+            if (ret != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *二叉树的最近公共祖先
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (p == root || q == root) {
+            return root;
+        }
+        TreeNode TreeLeft = lowestCommonAncestor(root.left, p, q);
+        TreeNode TreeRight = lowestCommonAncestor(root.right, p, q);
+        if (TreeLeft != null && TreeRight != null) {
+            return root;
+        } else if (TreeLeft != null && TreeRight == null) {
+            return TreeLeft;
+        }else if (TreeLeft == null && TreeRight != null){
+            return TreeRight;
+        }
+        //两边都为空
+        return null;
+    }
+
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        Stack<TreeNode> stackQ = new Stack<>();
+        Stack<TreeNode> stackP = new Stack<>();
+        getPath(root,p,stackP);
+        getPath(root,q,stackQ);
+        int sizeP = stackP.size();
+        int sizeQ = stackQ.size();
+        int dif = sizeP - sizeQ;
+        if (dif > 0) {
+            while (dif != 0) {
+                stackP.pop();
+                dif--;
+            }
+        }else {
+            dif = sizeQ - sizeP;
+            while (dif != 0) {
+                stackQ.pop();
+                dif--;
+            }
+        }
+        //寻找相同的父节点
+        while (!stackQ.isEmpty() && !stackP.isEmpty()){
+            if (stackQ.peek().equals(stackP.peek())) {
+                return stackQ.peek();
+            }
+            stackQ.pop();
+            stackP.pop();
+        }
+        return null;
+    }
+    private boolean getPath(TreeNode root, TreeNode node, Stack<TreeNode> stack){
+        if (root == null) {
+            return false;
+        }
+        //root 不为空
+        stack.push(root);
+        if (root == node) {
+            return true;
+        }
+        boolean flg1 = getPath(root.left, node, stack);
+        if (flg1) {
+            return true;
+        }
+        boolean flg2 = getPath(root.right,node,stack);
+        if (flg2) {
+            return true;
+        }
+        //flg1 flg2 均为false
+        stack.pop();
+        return false;
+    }
+
+    /**
+     * 自底向上的层序遍历 从左到右遍历
+     * @param root
+     * @return
+     */
+    public List<List<Character>> levelOrderBottom(TreeNode root) {
+        List<List<Character>> ret = new ArrayList<>();
+        if (root == null) {
+            return null;
+        }
+        //root 不为空
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.peek();
+            stack.push(cur.right);
+            stack.push(cur.left);
         }
     }
 }
