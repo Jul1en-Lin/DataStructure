@@ -453,22 +453,61 @@ public class BinaryTree {
 
     /**
      * 自底向上的层序遍历 从左到右遍历
-     * @param root
-     * @return
+     * 双栈法
      */
-    public List<List<Character>> levelOrderBottom(TreeNode root) {
+     /*public List<List<Character>> levelOrderBottom(TreeNode root) {
         List<List<Character>> ret = new ArrayList<>();
         if (root == null) {
             return null;
         }
         //root 不为空
-        Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
+        Stack<TreeNode> currentStack = new Stack<>();
+        Stack<TreeNode> nextStack = new Stack<>();
 
-        while (!stack.isEmpty()) {
-            TreeNode cur = stack.peek();
-            stack.push(cur.right);
-            stack.push(cur.left);
+        currentStack.push(root);
+        while (!currentStack.isEmpty()) {
+            List<Character> currentLevel = new ArrayList<>();
+            int currentSize = currentStack.size();
+            for (int i = 0;i < currentSize; i++) {
+                TreeNode cur = currentStack.peek();
+                currentLevel.add(cur.val);
+                if (cur.left != null) {
+                    currentStack.push(cur.right);
+                }
+                if (cur.right != null) {
+                    currentStack.push(cur.left);
+                }
+            }
+            ret.add(0,currentLevel);//头插法 实现倒序
+            //交换
+            Stack<TreeNode> tmp = currentStack;
+            currentStack = nextStack;
+            nextStack = tmp;
         }
+        return ret;
+    }*/
+
+    //队列法
+    public List<List<Character>> levelOrderBottom2(TreeNode root) {
+        List<List<Character>> ret = new ArrayList<>();
+        if (root == null) {
+            return ret;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            List<Character> currentLevel = new ArrayList<>();
+            int size = queue.size();
+            while (size != 0) {
+                TreeNode cur = queue.poll();
+                currentLevel.add(cur.val);
+                if (cur.left != null) queue.offer(cur.left);
+                if (cur.right != null) queue.offer(cur.right);
+                size--;
+            }
+            //Collections.reverse(ret);
+            ret.add(0,currentLevel);//头插法实现倒序
+        }
+        return ret;
     }
 }
