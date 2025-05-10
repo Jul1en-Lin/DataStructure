@@ -510,4 +510,43 @@ public class BinaryTree {
         }
         return ret;
     }
+
+    public List<Character> preorderTraversal(TreeNode root) {
+        List<Character> list = new ArrayList<>();
+        if (root == null) {
+            return list;
+        }
+        list.add(root.val);
+        preorderTraversal(root.left);
+        preorderTraversal(root.right);
+        return list;
+    }
+
+    /*public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        if (root == null) {
+            return list;
+        }
+        TreeNode cur = root;
+        TreeNode top = null;
+        while (cur != null || !stack.isEmpty()) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            top = stack.pop();
+            list.add(top.val);
+            cur = top.right;
+        }
+        return list;
+    }*/
+
+    /**
+     * 从前序遍历与中序遍历序列构造二叉树
+     * @return
+     */
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return null;
+    }
 }
