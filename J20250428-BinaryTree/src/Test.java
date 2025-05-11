@@ -2,6 +2,11 @@ public class Test {
     public static void main(String[] args) {
         BinaryTree binaryTree = new BinaryTree();
         BinaryTree.TreeNode root = binaryTree.createTree();
+        //binaryTree.buildTree(root);
+    }
+    public static void main1(String[] args) {
+        BinaryTree binaryTree = new BinaryTree();
+        BinaryTree.TreeNode root = binaryTree.createTree();
 
 
         System.out.println("=====");
@@ -11,4 +16,5 @@ public class Test {
 
         binaryTree.levelOrder(root);
     }
+
 }

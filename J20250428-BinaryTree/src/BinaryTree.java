@@ -549,4 +549,9 @@ public class BinaryTree {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         return null;
     }
+
+    private TreeNode buildTreeChild(int[] preorder,int index,int[] inorder) {
+
+        return null;
+    }
 }
