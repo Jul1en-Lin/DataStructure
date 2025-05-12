@@ -3,11 +3,16 @@ import java.util.*;
 public class BinaryTree {
     static class TreeNode{
 
-        public char val;
+        public char val1;
+        public int val;
+
         public TreeNode left;
         public TreeNode right;
 
-        public TreeNode(char val) {
+        public TreeNode(char val1) {
+            this.val1 = val1;
+        }
+        public TreeNode(int val) {
             this.val = val;
         }
     }
@@ -106,7 +111,7 @@ public class BinaryTree {
             int size = queue.size();
             while (size != 0) {
                 TreeNode cur = queue.poll();
-                listRow.add(cur.val);
+                listRow.add(cur.val1);
                 System.out.print(cur.val + " ");
                 if (cur.left != null) {
                     queue.offer(cur.left);
@@ -500,7 +505,7 @@ public class BinaryTree {
             int size = queue.size();
             while (size != 0) {
                 TreeNode cur = queue.poll();
-                currentLevel.add(cur.val);
+                currentLevel.add(cur.val1);
                 if (cur.left != null) queue.offer(cur.left);
                 if (cur.right != null) queue.offer(cur.right);
                 size--;
@@ -516,7 +521,7 @@ public class BinaryTree {
         if (root == null) {
             return list;
         }
-        list.add(root.val);
+        list.add(root.val1);
         preorderTraversal(root.left);
         preorderTraversal(root.right);
         return list;
@@ -546,12 +551,76 @@ public class BinaryTree {
      * 从前序遍历与中序遍历序列构造二叉树
      * @return
      */
+    int preIndex = 0;
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return null;
+        int inBegin = 0;
+        int inEnd = inorder.length-1;
+        TreeNode ret = buildTreeChild(preorder,inorder, inBegin, inEnd);
+        return ret;
+    }
+    private TreeNode buildTreeChild(int[] preorder,int[] inorder,int inBegin,int inEnd) {
+        if (inBegin > inEnd) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[preIndex]);
+        int rootIndex = findVal(inorder,inBegin,inEnd,preorder[preIndex]);
+        preIndex++;
+        root.left = buildTreeChild(preorder,inorder,inBegin,rootIndex-1);
+        root.right = buildTreeChild(preorder,inorder,rootIndex+1,inEnd);
+        return root;
     }
 
-    private TreeNode buildTreeChild(int[] preorder,int index,int[] inorder) {
+    private int findVal(int[] inorder, int inBegin, int inEnd, int key) {
+        for (int i = inBegin; i <= inEnd; i++) {
+            if (inorder[i] == key) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-        return null;
+    /**
+     * 从中序遍历与后序遍历序列构造二叉树
+     */
+    int postOrderIndex = 0;
+    public TreeNode buildTree1(int[] inorder, int[] postorder) {
+        postOrderIndex = postorder.length-1;
+        return buildTreeChild2(inorder,postorder,0,inorder.length-1);
+    }
+    private TreeNode buildTreeChild2(int[] inorder, int[] postorder,int inBegin,int inEnd) {
+        if (inBegin > inEnd) {
+            return null;
+        }
+        TreeNode root = new TreeNode(postorder[postOrderIndex]);
+        int rootIndex = findVal(inorder,inBegin,inEnd,postorder[postOrderIndex]);
+        postOrderIndex--;
+        root.right = buildTreeChild2(inorder,postorder,rootIndex+1,inEnd);
+        root.left = buildTreeChild2(inorder,postorder,inBegin,rootIndex-1);
+        return root;
+    }
+
+    /**
+     * 根据二叉树创建字符串
+     */
+    public String tree2str(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        StringBuilder str = new StringBuilder();
+        str.append(root);
+        if (root.left != null) {
+            str.append('(');
+            tree2str(root.left);
+            str.append(')');
+        }else{
+            str.append(')');
+        }
+        if (root.right != null) {
+            str.append('(');
+            tree2str(root.right);
+        }else {
+            return null;
+        }
+        return str.toString();
     }
 }
