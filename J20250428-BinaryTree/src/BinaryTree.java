@@ -602,24 +602,31 @@ public class BinaryTree {
     /**
      * 根据二叉树创建字符串
      */
+    StringBuilder str = new StringBuilder();
     public String tree2str(TreeNode root) {
         if (root == null) {
             return null;
         }
-        StringBuilder str = new StringBuilder();
-        str.append(root);
+        str.append(root.val);
+        //左子树
         if (root.left != null) {
-            str.append('(');
+            str.append("(");
             tree2str(root.left);
-            str.append(')');
+            str.append(")");
         }else{
-            str.append(')');
+            if (root.right != null) {
+                str.append("()");
+            }else {
+                
+            }
         }
+        //右子树
         if (root.right != null) {
-            str.append('(');
+            str.append("(");
             tree2str(root.right);
+            str.append(")");
         }else {
-            return null;
+
         }
         return str.toString();
     }
