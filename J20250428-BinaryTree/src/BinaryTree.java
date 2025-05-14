@@ -74,6 +74,7 @@ public class BinaryTree {
 
     /**
      * 层序遍历
+     * 利用队列
      */
     public void levelOrder(TreeNode root) {
         if (root == null) {
@@ -527,7 +528,50 @@ public class BinaryTree {
         return list;
     }
 
-    /*public List<Integer> inorderTraversal(TreeNode root) {
+    public List<Integer> preorderTraversal2(TreeNode root) {
+        List<Integer> ret = new ArrayList<>();
+        if (root == null) {
+            return ret;
+        }
+        List<Integer> list = preorderTraversal2(root.left);
+        ret.addAll(list);
+        List<Integer> list1 = preorderTraversal2(root.right);
+        ret.addAll(list1);
+        return ret;
+    }
+
+
+    /**
+     * 非递归前序遍历
+     * @param root
+     */
+    public List<Integer> preorderTraversalNor(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> ret = new ArrayList<>();
+        TreeNode top = null;
+        if (root == null) {
+            return ret;
+        }
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                ret.add(root.val);
+                root = root.left;
+            }
+            //左空
+            top = stack.pop();
+            root = top.right;
+            //while嵌套
+        }
+        return ret;
+    }
+
+    /**
+     * 非递归中序遍历
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversalNor(TreeNode root) {
         List<Integer> list = new ArrayList<>();
         Deque<TreeNode> stack = new ArrayDeque<>();
         if (root == null) {
@@ -545,7 +589,38 @@ public class BinaryTree {
             cur = top.right;
         }
         return list;
-    }*/
+    }
+
+    /**
+     * 非递归后序遍历
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversalNor(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> ret = new ArrayList<>();
+        TreeNode top = null;
+        TreeNode cur = root;
+        TreeNode prv = null;
+        if (root == null) {
+            return ret;
+        }
+        while (cur != null || !stack.isEmpty()) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            top = stack.peek();
+            if (top.right == null || top.right == prv) {
+                top = stack.pop();
+                ret.add(top.val);
+                prv = top;
+            }else {
+                cur = top.right;
+            }
+        }
+        return ret;
+    }
 
     /**
      * 从前序遍历与中序遍历序列构造二叉树
@@ -614,10 +689,9 @@ public class BinaryTree {
             tree2str(root.left);
             str.append(")");
         }else{
+            //左子树中的右子树
             if (root.right != null) {
                 str.append("()");
-            }else {
-                
             }
         }
         //右子树
@@ -625,9 +699,9 @@ public class BinaryTree {
             str.append("(");
             tree2str(root.right);
             str.append(")");
-        }else {
-
         }
         return str.toString();
     }
+
+
 }
