@@ -1,4 +1,7 @@
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 
 public class Heap {
     public int[] elem;
@@ -25,6 +28,7 @@ public class Heap {
     }
 
 
+    //向下调整
     private void siftDown(int parent,int usedSize) {
         int child = 2 * parent + 1;
         //判断是否有右树
@@ -88,4 +92,61 @@ public class Heap {
         return usedSize == 0;
     }
 
+    public int peekHeap() {
+        return elem[0];
+    }
+
+    //找数组中最小的k个数
+    public int[] smallestK(int[] arr, int k) {
+        int[] ret = new int[k];
+        if(k == 0 || arr == null) {
+            return ret;
+        }
+        //创造k个节点的大根堆
+        PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2.compareTo(o1);
+            }
+        });
+        for (int i = 0; i < k; i++) {
+            queue.offer(arr[i]);
+        }
+        for (int i = k; i < arr.length; i++) {
+            if (queue.peek() > arr[i]) {
+                queue.poll();
+                queue.offer(arr[i]);
+            }
+        }
+        for (int i = 0; i < k; i++) {
+            ret[i] = queue.poll();
+        }
+        return ret;
+    }
+
+    public int[] smallestK2(int[] arr, int k) {
+        int[] ret = new int[k];
+        if (arr == null || k == 0) {
+            return ret;
+        }
+        //创建小根堆
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        for (int i = 0; i < arr.length; i++) {
+            queue.offer(arr[i]);
+        }
+        for (int i = 0; i < k; i++) {
+            int val = queue.poll();
+            ret[i] = val;
+        }
+        return ret;
+    }
+
+    public void heapSort() {
+        int end = usedSize-1;
+        while (end > 0) {
+            swap(elem,0,end);
+            siftDown(0,end);
+            end--;
+        }
+    }
 }
