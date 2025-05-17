@@ -31,7 +31,7 @@ public class Sort {
      */
     public static void shellSort(int[] array) {
         int gap = array.length;
-        while (gap > 1) {
+        while (gap >= 1) {
             shell(array,gap);
             gap = gap/2;
         }
@@ -79,9 +79,17 @@ public class Sort {
 
     /**
      * 堆排序
+     *  时间复杂度O(N*logN)
+     *  空间复杂度O(1)
+     *  稳定性:稳定
      */
     public static void heapSort(int[] array) {
-        int end = array.length;
+        int end = array.length-1;
+
+        //创建大根堆
+        for (int parent = (end-1)/2; parent >= 0; parent-- ) {
+            siftDown(array,parent,array.length-1);
+        }
         while (end > 0){
             swap(array,0,end);
             siftDown(array,0,end);
@@ -89,9 +97,10 @@ public class Sort {
         }
     }
 
-    private static void siftDown(int[] array, int parent,int length) {
+    public static void siftDown(int[] array, int parent,int length) {
         int child = 2*parent + 1;
         while (child < length) {
+            //判断是否有右树
             if (child + 1 < length && array[child] < array[child+1]) {
                 child++;
             }
@@ -103,5 +112,37 @@ public class Sort {
                 break;
             }
         }
+    }
+
+    /**
+     * 冒泡排序
+     *  时间复杂度O(N^2)
+     *    最好情况是{1，2，3，4，5} O(N)
+     *  空间复杂度O(1)
+     *  稳定性:稳定
+     * @param array
+     */
+    public static void bubbleSort(int[] array) {
+        //i表示趟数
+        for (int i = 0; i < array.length-1; i++) {
+            boolean flg = false;//优化
+            for (int j = 0; j < array.length-1-i; j++) {
+                if (array[j] > array[j+1]) {
+                    swap(array,j,j+1);
+                    flg = true;
+                }
+            }
+            if (!flg){
+                break;
+            }
+        }
+    }
+
+    public static void quickSort(int[] array){
+        //接口统一性 ---重载
+        quickSort(array,0,array.length-1);
+    }
+    private static void quickSort(int[] array,int left,int right){
+        
     }
 }
