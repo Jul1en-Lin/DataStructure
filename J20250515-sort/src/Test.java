@@ -77,10 +77,24 @@ public class Test {
         SortTest.quickSortTest(arr);
     }
     public static void main(String[] args) {
-        int[] arr = {10,5,3,73,25,26,142,46};
-        Sort.mergeSort(arr);
+        int[] arr = {5,2,3,1};
+        insertSort(arr,0,arr.length-1);
         System.out.println(Arrays.toString(arr));
     }
 
+    public static void insertSort(int[] array, int low, int high) {
+        for(int i = 1;i < array.length;i++) {
+            int tmp = array[i];
+            int j = i-1;
+            for(;j >= 0;j--) {
+                if (array[j] > tmp) {
+                    array[j+1] = array[j];
+                }else {
+                    break;
+                }
+            }
+            array[j + 1] = tmp;
+        }
+    }
 
 }

@@ -10,6 +10,7 @@ public class Sort {
      *  空间复杂度O(1)
      *  稳定性：稳定排序⭐
      */
+
     public static void insertSort(int[] array) {
         for (int i = 1; i < array.length; i++) {
             int tmp = array[i];
@@ -27,7 +28,6 @@ public class Sort {
             array[j+1] = tmp;
         }
     }
-
     /**
      * 希尔排序
      *  时间复杂度O(N^1.3~N^1.5)
@@ -86,7 +86,7 @@ public class Sort {
      * 堆排序
      *  时间复杂度O(N*logN)
      *  空间复杂度O(1)
-     *  稳定性:稳定
+     *  稳定性:不稳定
      */
     public static void heapSort(int[] array) {
         int end = array.length-1;
@@ -255,6 +255,7 @@ public class Sort {
             int tmp = array[i];
             int j = i-1;
             for (; j >= low; j--) {
+                // 这里 >= 就不是稳定的排序了！！
                 if (array[j] > tmp) {
                     array[j+1] = array[j];
                 }else {
@@ -302,10 +303,11 @@ public class Sort {
     }
 
     /**
-     * 合并排列
+     * 归并排列
      *  时间复杂度O(N*logN)
      *  空间复杂度O(N)
      *  稳定性:稳定
+     *      插入    冒泡   合并
      * @param array
      */
     public static void mergeSort(int[] array) {
@@ -349,6 +351,28 @@ public class Sort {
         for (int i = 0; i < tmp.length; i++) {
             //i+left 使得右树tmp数组的数值也能正确对应原数组的下标
             array[i + left] = tmp[i];
+        }
+    }
+
+    /**
+     * 非递归归并排序
+     */
+    public static void mergeSortNor(int[] array) {
+        int gap = 1;
+        while (gap < array.length) {
+            for (int i = 0; i < array.length; i = i + 2*gap) {
+                int left = i;
+                int mid = i + gap - 1;
+                if (mid >= array.length) {
+                    mid = array.length-1;
+                }
+                int right = mid + gap;
+                if (right >= array.length) {
+                    right = array.length-1;
+                }
+                merge(array,left,mid,right);
+            }
+            gap *= 2;
         }
     }
 }
