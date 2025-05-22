@@ -11,7 +11,7 @@ public class Solution {
         ListNode(int val) { this.val = val; }
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
-    public ListNode addTwoNumbers(ListNode root1, ListNode root2) {
+    /*public ListNode addTwoNumbers(ListNode root1, ListNode root2) {
         ListNode cur1 = root1;
         ListNode cur2 = root2;
         Stack<Integer> stack1 = new Stack<>();
@@ -28,20 +28,18 @@ public class Solution {
             cur2 = cur2.next;
             count2++;
         }
-
-        double sum1 = 0;
-        double sum2 = 0;
-        while(!stack1.isEmpty() && count1 != 0) {
+        double sum1 = -1;
+        double sum2 = -1;
+        while(!stack1.isEmpty()) {
             double tmp = stack1.pop();
             double ret = Math.pow(10,count1);
-            sum1 = tmp * ret;
+            sum1 += tmp * ret;
             count1--;
         }
-
-        while(!stack2.isEmpty() && count2 != 0) {
+        while(!stack2.isEmpty()) {
             double tmp = stack2.pop();
             double ret = Math.pow(10,count2);
-            sum2 = tmp * ret;
+            sum2 += tmp * ret;
             count2--;
         }
         double twoNum = sum1 + sum2;
@@ -51,22 +49,48 @@ public class Solution {
             twoNum = twoNum / 10;
             queue.offer(tmp);
         }
-
         ListNode root = new ListNode();
-        if(queue.poll() == null) {
+        if(queue.peek() == null) {
             return null;
         }
         root.val = queue.poll();
         ListNode p = root;
         ListNode pre = p;
-
         while(!queue.isEmpty()) {
             p = new ListNode();
             p.val = queue.poll();
             pre.next = p;
             pre = p;
         }
-
         return root;
+    }*/ //error
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        //哨兵节点
+        ListNode pre = new ListNode();
+        ListNode cur = pre;
+        //标记进位
+        int carry = 0;
+        while (l1 != null || l2 != null) {
+            int x = l1 == null ? 0 : l1.val;
+            int y = l2 == null ? 0 : l2.val;
+            int sum = x + y + carry;
+
+            carry = sum / 10;
+            int ret = sum % 10;
+            cur.next = new ListNode(ret);
+            cur = cur.next;
+            if (l1 != null) {
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                l2 = l2.next;
+            }
+        }
+        if (carry == 1) {
+            cur.next = new ListNode(carry);
+        }
+        return pre.next;
+
     }
 }
