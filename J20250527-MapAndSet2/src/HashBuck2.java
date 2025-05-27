@@ -23,7 +23,7 @@ public class HashBuck2<K,V> {
 
         Node<K,V> cur = array[index];
         while (cur != null) {
-            if (cur.key == key) {
+            if (cur.key.equals(key)) {
                 cur.val = val;
                 return;
             }
@@ -62,7 +62,7 @@ public class HashBuck2<K,V> {
         int index = key.hashCode() % array.length;
         Node<K,V> cur = array[index];
         while (cur != null) {
-            if (cur.key == key) {
+            if (cur.key.equals(key)) {
                 return cur.val;
             }
             cur = cur.next;
