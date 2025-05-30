@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Test {
 
-    public static boolean containsNearbyDuplicate(int[] nums, int key) {
+    /*public static boolean containsNearbyDuplicate(int[] nums, int key) {
         Set<Integer> set = new HashSet<>();
         Set<Integer> set2 = new HashSet<>();
         boolean flg = false;
@@ -28,9 +28,18 @@ public class Test {
                 return false;
             }
         }
+    }*/
+
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i]) && i - map.get(nums[i]) <= k) {
+                return true;
+            }
+            map.put(nums[i], i);
+        }
+        return false;
     }
-
-
     public static void main(String[] args) {
         Map<Integer,Integer> map = new HashMap<>();
         map.put(1,2);
@@ -42,7 +51,7 @@ public class Test {
     }
     public static void main2(String[] args) {
         int[] nums = {1,2,3,1,2,3};
-        System.out.println(containsNearbyDuplicate(nums, 2));
+        //System.out.println(containsNearbyDuplicate(nums, 2));
     }
     public static void main1(String[] args) {
         String str = "adbs";
