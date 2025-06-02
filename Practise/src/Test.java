@@ -1,4 +1,4 @@
-import java.util.*;
+    import java.util.*;
 
 public class Test {
 
@@ -48,6 +48,7 @@ public class Test {
         System.out.println(map.get(1));
         String str = "sef";
         str.toUpperCase();
+
     }
     public static void main2(String[] args) {
         int[] nums = {1,2,3,1,2,3};
