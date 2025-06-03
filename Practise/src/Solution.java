@@ -1,3 +1,4 @@
+import javax.swing.tree.TreeNode;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -93,4 +94,31 @@ public class Solution {
         return pre.next;
 
     }
+
+    /*public boolean isCompleteTree(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.peek();
+            if (cur != null) {
+                queue.offer(cur.left);
+                queue.offer(cur.right);
+                queue.poll();
+            }else {
+                break;
+            }
+        }
+        //判断队列里面是否全是空
+        while (!queue.isEmpty()) {
+            TreeNode ret = queue.poll();
+            if (ret != null) {
+                return false;
+            }
+        }
+        return true;
+    }*/
 }

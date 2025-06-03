@@ -61,6 +61,5 @@ public class Test {
         }
         Random random = new Random();
         random.nextInt();
-
     }
 }
