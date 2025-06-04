@@ -1,13 +1,13 @@
 import javax.swing.tree.TreeNode;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
 
     public class ListNode {
         int val;
         ListNode next;
+        ListNode left;
+        ListNode right;
         ListNode() {}
         ListNode(int val) { this.val = val; }
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
@@ -121,4 +121,125 @@ public class Solution {
         }
         return true;
     }*/
+
+
+
+
+    /*public static void main(String[] args) {
+        throw new 瓶盖();
+        destroy();
+        System.out.println("对不住了兄弟");
+        apologize();
+        if (apologize()) {
+            System.out.println("你这态度那还说啥了");
+        }
+        switch () {
+            case drink():
+                System.out.println("去我后备箱拿瓶酒");
+                break;
+            case smoke():
+                System.out.println("去我后备箱拿条烟");
+                break;
+            default:
+                break;
+        }
+        System.out.println("你说这扯不扯");
+        if(fullness()) {
+            System.out.println("哥们我俩吃完先走了");
+            System.out.println("把帐结了");
+            compensate();
+            System.out.println("兄弟");
+        }
+    }*/
+
+    public ArrayList<ArrayList<ListNode>> fun1(ListNode pRoot) {
+        ArrayList<ArrayList<ListNode>> ret = new ArrayList<>();
+        if (pRoot == null) {
+            return ret;
+        }
+        boolean flg = true;
+        Queue<ListNode> queue = new LinkedList<>();
+        queue.offer(pRoot);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            ArrayList<ListNode> tmp = new ArrayList<>();
+            while (size != 0) {
+                ListNode cur = queue.poll();
+                if (cur.left != null) {
+                    queue.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    queue.offer(cur.right);
+                }
+                tmp.add(cur);
+                size--;
+            }
+            if (flg) {
+                flg = false;
+            }else {
+                Collections.reverse(tmp);
+                flg = true;
+            }
+            ret.add(tmp);
+        }
+        return ret;
+    }
+    //判断是否回文链表：1 2 3 2 1    12  23  34  34  23  12
+    public boolean chkPalindrome(ListNode A) {
+        int[] array = new int[1_000];
+        ListNode cur = A;
+        int size = 0;
+        while (cur != null) {
+            array[size++] = cur.val;
+            cur = cur.next;
+        }
+
+        int leftIndex = 0;
+        int rightIndex = array.length-1;
+        while (leftIndex <= rightIndex) {
+            if (array[leftIndex++] != array[rightIndex--]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean chkPalindrome2(ListNode A) {
+        if (A == null) {
+            return false;
+        }
+        if (A.next == null) {
+            return true;
+        }
+        ListNode mid = middleNode(A);
+        ListNode cur = mid.next;
+        while (cur != null) {
+            ListNode fast = cur.next;
+            cur.next = mid;
+            mid = cur;
+            cur = fast;
+        }
+
+        while (A.val == mid.val) {
+            if (A == mid) {
+                return true;
+            }
+            if (A.next == mid) {
+                return true;
+            }
+            A = A.next;
+            mid = mid.next;
+        }
+        return false;
+    }
+
+    private ListNode middleNode(ListNode A) {
+        ListNode fast = A;
+        ListNode slow = A;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
 }
