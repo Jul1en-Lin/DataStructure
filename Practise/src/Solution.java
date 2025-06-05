@@ -242,4 +242,8 @@ public class Solution {
         }
         return slow;
     }
+
+    public static void main(String[] args) {
+
+    }
 }
