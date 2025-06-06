@@ -244,6 +244,6 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-
+        System.out.println("今天摸个鱼，好累，期末了要复习好多科，Java原谅我");
     }
 }
