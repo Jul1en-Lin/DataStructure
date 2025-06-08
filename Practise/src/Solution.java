@@ -1,3 +1,4 @@
+import javax.crypto.spec.PSource;
 import javax.swing.tree.TreeNode;
 import java.util.*;
 
@@ -247,8 +248,12 @@ public class Solution {
         System.out.println("今天摸个鱼，好累，期末了要复习好多科，Java原谅我");
     }
 
-    public static void main(String[] args) {
+    public static void main4(String[] args) {
         System.out.println("今天复了一天的电路分析基础，希望过过过");
         System.out.println("先把Java小朋友打入冷宫");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("哈哈哈哈哈今天考完电路分析了，但是明天还要考电路实验。。。又要去复习了。");
     }
 }
