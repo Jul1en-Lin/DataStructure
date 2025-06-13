@@ -257,7 +257,11 @@ public class Solution {
         System.out.println("哈哈哈哈哈今天考完电路分析了，但是明天还要考电路实验。。。又要去复习了。");
     }
 
-    public static void main(String[] args) {
+    public static void main6(String[] args) {
         System.out.println("一天不写代码感觉脑子生锈了。。。糟糕的四六级考试快来吧我不想复习了/(ㄒoㄒ)/~~");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("明天考四级 考完我就自由啦能学MySQL啦哈哈哈哈哈哈");
     }
 }
