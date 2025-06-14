@@ -261,7 +261,11 @@ public class Solution {
         System.out.println("一天不写代码感觉脑子生锈了。。。糟糕的四六级考试快来吧我不想复习了/(ㄒoㄒ)/~~");
     }
 
-    public static void main(String[] args) {
+    public static void main7(String[] args) {
         System.out.println("明天考四级 考完我就自由啦能学MySQL啦哈哈哈哈哈哈");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("小小四级拿捏");
     }
 }
