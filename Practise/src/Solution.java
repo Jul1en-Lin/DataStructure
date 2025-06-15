@@ -244,28 +244,7 @@ public class Solution {
         return slow;
     }
 
-    public static void main3(String[] args) {
-        System.out.println("今天摸个鱼，好累，期末了要复习好多科，Java原谅我");
-    }
-
-    public static void main4(String[] args) {
-        System.out.println("今天复了一天的电路分析基础，希望过过过");
-        System.out.println("先把Java小朋友打入冷宫");
-    }
-
-    public static void main5(String[] args) {
-        System.out.println("哈哈哈哈哈今天考完电路分析了，但是明天还要考电路实验。。。又要去复习了。");
-    }
-
-    public static void main6(String[] args) {
-        System.out.println("一天不写代码感觉脑子生锈了。。。糟糕的四六级考试快来吧我不想复习了/(ㄒoㄒ)/~~");
-    }
-
-    public static void main7(String[] args) {
-        System.out.println("明天考四级 考完我就自由啦能学MySQL啦哈哈哈哈哈哈");
-    }
-
     public static void main(String[] args) {
-        System.out.println("小小四级拿捏");
+        System.out.println("明天继续");
     }
 }
