@@ -244,7 +244,130 @@ public class Solution {
         return slow;
     }
 
-    public static void main(String[] args) {
-        System.out.println("明天继续");
+    class Node {
+        int val;
+        Node next;
+        Node random;
+
+        public Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+
+        public Node() {
+
+        }
+    }
+
+    /**
+     * 在节点值唯一时可以工作，如果包含重复值则不能用
+     * @param head
+     * @return 拷贝后的头节点
+     */
+    public Node copyRandomList(Node head) {
+        if (head != null) return null;
+        //哨兵节点
+        Node pre = new Node();
+        Node copyHead = new Node(head.val);
+        Node node = copyHead;
+        pre.next = copyHead;
+        Node cur = new Node();
+        if (head.next == null) {
+            copyHead.next = null;
+        }else {
+            cur = head.next;
+        }
+        //遍历复制val
+        while (cur != null) {
+            Node newNode = new Node(cur.val);
+            node.next = newNode;
+            node = node.next;
+            cur = cur.next;
+        }
+        cur = head;
+        node = copyHead;
+        //找到random节点
+        Node ran;
+        Node copyRan;
+        while (cur != null) {
+            ran = cur.random;
+            copyRan = copyHead;
+            while (ran.val != copyRan.val && ran != null) {
+                copyRan = copyRan.next;
+            }
+            if (ran == null) {
+                node.random = null;
+            }else {
+                node.random = copyRan;
+            }
+            node = node.next;
+            cur = cur.next;
+        }
+        return pre.next;
+    }
+
+    /**
+     * 适用于任何场景的哈希表深度拷贝链表
+     * @param head
+     * @return
+     */
+    public Node copyRandomList2(Node head){
+        if (head == null) return null;
+        Node cur = head;
+        Map<Node,Node> map = new HashMap<>();
+        //第一次遍历：创造所有节点的拷贝，建立映射关系
+        while (cur != null) {
+            map.put(cur,new Node(cur.val));
+            cur = cur.next;
+        }
+        cur = head;
+        //第二次遍历：链接next和random指针
+        while (cur != null) {
+            Node copy = map.get(cur);
+            copy.next = map.get(cur.next);
+            copy.random = map.get(cur.random);
+            cur = cur.next;
+        }
+        return map.get(head);
+    }
+
+    /**
+     * 返回前 k 个出现次数最多的单词
+     */
+    public List<String> topKFrequent(String[] words, int k) {
+        Map<String, Integer> map = new HashMap<>();
+        //统计单词频率，建立映射关系
+        for (String word : words) {
+            map.put(word,map.getOrDefault(word,0) +1);
+        }
+
+        PriorityQueue<String> queue = new PriorityQueue<>(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                Integer o1count = map.get(o1);
+                Integer o2count = map.get(o2);
+                if (o1count.equals(o2count)) {
+                    //频率相同时：字典序降序（Z->A）
+                    return o2.compareTo(o1);
+                }else {
+                    //小顶堆
+                    return o1count - o2count;
+                }
+            }
+        });
+        //Top K问题
+        for(String word : map.keySet()) {
+            queue.offer(word);
+            if (queue.size() > k) {
+                queue.poll();//优先淘汰最低的且字母顺序大的
+            }
+        }
+        //保证次数高的优先
+        LinkedList<String> stack = new LinkedList<>();
+        while (!queue.isEmpty()) {
+            stack.push(queue.poll());
+        }
+        return stack;
     }
 }
