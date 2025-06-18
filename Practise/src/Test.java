@@ -30,7 +30,7 @@ public class Test {
         }
     }*/
 
-    public boolean containsNearbyDuplicate(int[] nums, int k) {
+    public static boolean containsNearbyDuplicate(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             if (map.containsKey(nums[i]) && i - map.get(nums[i]) <= k) {
@@ -40,7 +40,7 @@ public class Test {
         }
         return false;
     }
-    public static void main(String[] args) {
+    public static void main5(String[] args) {
         Map<Integer,Integer> map = new HashMap<>();
         map.put(1,2);
         map.put(1,3);
@@ -61,5 +61,9 @@ public class Test {
         }
         Random random = new Random();
         random.nextInt();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(containsNearbyDuplicate(nums, 2));
     }
 }

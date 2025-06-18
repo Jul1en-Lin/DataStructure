@@ -370,7 +370,5 @@ public class Solution {
         }
         return stack;
     }
-    public void topKFrequent3(String[] words, int k){
 
-    };
 }
