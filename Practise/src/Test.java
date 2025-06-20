@@ -64,6 +64,7 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        System.out.println(containsNearbyDuplicate(nums, 2));
+        //System.out.println(containsNearbyDuplicate(nums, 2));
+        System.out.println("练习");
     }
 }
