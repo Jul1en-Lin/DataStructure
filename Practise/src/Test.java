@@ -67,6 +67,7 @@ public class Test {
         //System.out.println(containsNearbyDuplicate(nums, 2));
         System.out.println("练习12");
         System.out.println("倒数两天期末周结束！！！ 加油");
+        System.out.println("还有一天 快结束吧。。。");
     }
 
 }
