@@ -63,13 +63,6 @@ public class Test {
         random.nextInt();
     }
 
-    public static void main(String[] args) {
-        //System.out.println(containsNearbyDuplicate(nums, 2));
-        System.out.println("练习12");
-        System.out.println("倒数两天期末周结束！！！ 加油");
-        System.out.println("还有一天 快结束吧。。。");
-        System.out.println("今天跟亲戚讲English了 感觉我的口语也没有那么差 对以后开口说英语没有那么没自信了 be confident！！");
-        System.out.println("还有三门。。。");
-    }
+
 
 }

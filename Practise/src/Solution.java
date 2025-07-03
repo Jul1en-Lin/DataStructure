@@ -371,4 +371,24 @@ public class Solution {
         return stack;
     }
 
+
+    public void moveZeroes(int[] nums) {
+        int dest = -1;
+        int cur = dest+1;
+        for ( ; cur < nums.length;cur++) {
+            if(nums[cur] == 0){
+                swap(nums,dest+1,cur);
+                dest++;
+            }
+        }
+    }
+    public void swap(int[] nums,int i,int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+
+    public static void main(String[] args) {
+
+    }
 }
